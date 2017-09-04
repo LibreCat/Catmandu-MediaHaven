@@ -1,5 +1,51 @@
 package Catmandu::MediaHaven;
 
+=head1 NAME
+
+Catmandu::MediaHaven - Tools to communicate with a MediaHaven server
+
+=head1 SYNOPSIS
+
+    use Catmandu::MediaHaven;
+
+    my $mh = Catmandu::MediaHaven->new(
+                    url      => '...' ,
+                    username => '...' ,
+                    password => '...');
+
+    my $result = $mh->search('nature', start => 0 , num => 100);
+
+    die "search failed" unless defined($result);
+
+    for my $res (@{$result->mediaDataList}) {
+        my $id = $res->{externalId};
+        my $date = $res->{data};
+
+        print "$id $date\n";
+    }
+
+    my $record = $mh->record('q2136s817');
+    my $date   = $record->{date};
+
+    print "q2136s817 $date\n";
+
+    $mh->export($id, sub {
+       my $data = shift;
+       print $data;
+    });
+
+=head1 DESCRIPTION
+
+The L<Catmandu::MediaHaven> module is a low end interface to the MediaHaven
+REST api. See also: https://archief.viaa.be/mediahaven-rest-api
+
+=head1 METHODS
+
+=head2 new(url => ... , username => ... , password => ...)
+
+Create a new connection to the MediaHaven server.
+
+=cut
 use Moo;
 use LWP::Simple;
 use URI::Escape;
@@ -12,13 +58,14 @@ use REST::Client;
 
 with 'Catmandu::Logger';
 
-has 'url'        => (is => 'ro' , required => 1);
-has 'username'   => (is => 'ro' , required => 1);
-has 'password'   => (is => 'ro' , required => 1);
-has 'sleep'      => (is => 'ro' , default => sub { 1 });
+has 'url'          => (is => 'ro' , required => 1);
+has 'username'     => (is => 'ro' , required => 1);
+has 'password'     => (is => 'ro' , required => 1);
+has 'record_query' => (is => 'ro' , default => sub { "q=%%2B(MediaObjectExternalId:%s)"; });
+has 'sleep'        => (is => 'ro' , default => sub { 1 });
 
-has 'cache'      => (is => 'lazy');
-has 'cache_size' => (is => 'ro' , default => '1000');
+has 'cache'        => (is => 'lazy');
+has 'cache_size'   => (is => 'ro' , default => '1000');
 
 sub _build_cache {
     my $self = shift;
@@ -26,6 +73,12 @@ sub _build_cache {
     return Cache::LRU->new(size => $self->cache_size);
 }
 
+=head2 search($query, start => ... , num => ...)
+
+Execute a search query against the MediaHaven server and return the result_list
+as a HASH
+
+=cut
 sub search {
     my ($self,$query,%opts) = @_;
 
@@ -47,6 +100,17 @@ sub search {
 
     my $res = $self->_rest_get(@param);
 
+    if (! defined $res) {
+        $self->log->error("got a null response");
+        return undef;
+    }
+    elsif ($res->{code}) {
+        $self->log->error("got an error response: " . $res->{message});
+        return undef;
+    }
+
+    $self->log->info("found: " . $res->{totalNrOfResults} . " hits");
+
     for my $hit (@{$res->{mediaDataList}}) {
         my $id;
 
@@ -64,26 +128,31 @@ sub search {
     $res;
 }
 
+=head2 record($id)
+
+Retrieve one record from the MediaHaven server based on an identifier. Returns
+a HASH of results.
+
+=cut
 sub record {
     my ($self,$id) = @_;
+
+    croak "need an id" unless defined($id);
 
     if (my $hit = $self->cache->get($id)) {
         return $hit;
     }
 
-    my $query;
+    my $query = sprintf $self->record_query , $id;
 
-    if (length $id > 30) {
-        $query = "q=%2B(MediaObjectFragmentdcidentifierlocalid:%22archive.ugent.be%3A$id%22)";
-    }
-    else {
-        $query = "q=%2B(MediaObjectExternalId:$id)";
-    }
+    $self->log->info("retrieve query: $query");
 
     my $res = $self->_rest_get($query);
 
-    if (exists $res->{code} && $res->{code} eq 'ESERVER' && exists $res->{status}) {
-        croak "error - query '$query' failed";
+    if (exists $res->{code}) {
+        $self->log->error("retrieve query '$query' failed: " . $res->{message});
+
+        return undef;
     }
 
     if ($res->{mediaDataList}) {
@@ -94,8 +163,18 @@ sub record {
     }
 }
 
+=head2 export($id, $callback)
+
+Export the binary content of a record from the MediaHaven server. The callback
+will retrieve a stream of data when the download is available,
+
+=cut
 sub export {
     my ($self,$id,$callback) = @_;
+
+    croak "need an id and callback" unless defined($id) && defined($callback);
+
+    $self->log->info("export record $id");
 
     my $record = $self->record($id);
 
@@ -106,6 +185,8 @@ sub export {
     return undef unless $mediaObjectId;
 
     my $media_url = sprintf "%s/%s/export" , $self->_rest_base , $mediaObjectId;
+
+    $self->log->info("posting $media_url");
 
     my ($export_job,$next) = $self->_post_json($media_url);
 
@@ -138,7 +219,16 @@ sub export {
     $self->log->debug("download: $rest_url");
 
     my $browser  = LWP::UserAgent->new();
-    my $response = $browser->get($rest_url, ':content_cb' => $callback);
+
+    $browser->get($rest_url, ':content_cb' => $callback);
+
+    if ($browser->is_success) {
+        return 1;
+    }
+    else {
+        $self->log->error("failed to contact the download url $rest_url");
+        return undef;
+    }
 }
 
 sub _get_json {
@@ -190,5 +280,27 @@ sub _rest_get {
 
     $self->_get_json($media_url);
 }
+
+
+=head1 SEE ALSO
+
+
+=head1 AUTHOR
+
+=over
+
+=item * Patrick Hochstenbach, C<< <patrick.hochstenbach at ugent.be> >>
+
+=back
+
+=head1 LICENSE AND COPYRIGHT
+
+This program is free software; you can redistribute it and/or modify it under the terms
+of either: the GNU General Public License as published by the Free Software Foundation;
+or the Artistic License.
+
+See L<http://dev.perl.org/licenses/> for more information.
+
+=cut
 
 1;
