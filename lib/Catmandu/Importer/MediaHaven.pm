@@ -2,7 +2,7 @@ package Catmandu::Importer::MediaHaven;
 
 =head1 NAME
 
-Catmandu::Importer::MediaHaven - Package that imports MediaHaven records
+Catmandu::Importer::MediaHaven - Package that imports Zeticon MediaHaven records
 
 =head1 SYNOPSIS
 

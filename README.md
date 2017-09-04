@@ -1,6 +1,6 @@
 # NAME
 
-Catmandu::MediaHaven - Tools to communicate with a MediaHaven server
+Catmandu::MediaHaven - Tools to communicate with the Zeticon MediaHaven server
 
 # SYNOPSIS
 

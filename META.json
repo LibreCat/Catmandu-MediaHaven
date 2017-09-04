@@ -1,5 +1,5 @@
 {
-   "abstract" : "Tools to communicate with a MediaHaven server",
+   "abstract" : "Tools to communicate with the Zeticon MediaHaven server",
    "author" : [
       "=over"
    ],
