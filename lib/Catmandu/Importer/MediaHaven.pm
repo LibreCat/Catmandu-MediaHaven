@@ -108,12 +108,14 @@ sub generator {
         state $total   = $res->{totalNrOfResults};
         state $index   = 0;
 
-        if (@$results) {
-            $index++;
+        $index++;
+
+        if (@$results > 1) {
             return shift @$results;
         }
         elsif ($index < $total) {
-            $results = $mh->search(undef, start => $index+1);
+            my $res = $mh->search(undef, start => $index+1);
+            $results = $res->{mediaDataList};
             $index++;
             return shift @$results;
         }
