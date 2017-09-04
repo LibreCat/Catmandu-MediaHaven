@@ -1,0 +1,8 @@
+Catmandu-Mediahaven-[0-9]*
+/.build
+!META.json
+LICENSE
+local
+cpanfile.snapshot
+.perl-version
+test_fedora.sh
