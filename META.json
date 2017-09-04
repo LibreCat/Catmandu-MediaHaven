@@ -54,6 +54,17 @@
       }
    },
    "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/LibreCat/Catmandu-MediaHaven/issues"
+      },
+      "homepage" : "https://github.com/LibreCat/Catmandu-MediaHaven",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/LibreCat/Catmandu-MediaHaven.git",
+         "web" : "https://github.com/LibreCat/Catmandu-MediaHaven"
+      }
+   },
    "version" : "0.01",
    "x_contributors" : [
       "Patrick Hochstenbach <patrick.hochstenbach@ugent.be>"
