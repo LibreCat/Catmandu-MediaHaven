@@ -80,7 +80,7 @@ See L<http://dev.perl.org/licenses/> for more information.
 
 use Catmandu::Sane;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Moo;
 use Catmandu::MediaHaven;
