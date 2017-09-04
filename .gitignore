@@ -5,4 +5,3 @@ LICENSE
 local
 cpanfile.snapshot
 .perl-version
-test_fedora.sh
