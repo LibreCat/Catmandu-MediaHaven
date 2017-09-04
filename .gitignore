@@ -1,4 +1,4 @@
-Catmandu-Mediahaven-[0-9]*
+Catmandu-MediaHaven-[0-9]*
 /.build
 !META.json
 LICENSE
