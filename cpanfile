@@ -8,6 +8,8 @@ on 'test', sub {
 };
 
 requires 'Catmandu', '1.06';
+requires 'REST::Client', 0;
+requires 'Cache::LRU', 0;
 
 # Need recent SSL to talk to https endpoint correctly
 requires 'IO::Socket::SSL', '2.015';
