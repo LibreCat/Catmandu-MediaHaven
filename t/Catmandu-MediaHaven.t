@@ -2,7 +2,6 @@ use strict;
 use warnings;
 use Test::More;
 use Test::Exception;
-use Data::Dumper;
 
 my $pkg;
 
@@ -12,10 +11,9 @@ BEGIN {
 }
 require_ok $pkg;
 
-my $url = $ENV{MEDIAHAVEN_URL} || "";
+my $url  = $ENV{MEDIAHAVEN_URL} || "";
 my $user = $ENV{MEDIAHAVEN_USER} || "";
 my $pwd  = $ENV{MEDIAHAVEN_PWD} || "";
-
 
 SKIP: {
     skip "No Mediahaven server environment settings found (MEDIAHAVEN_URL,"

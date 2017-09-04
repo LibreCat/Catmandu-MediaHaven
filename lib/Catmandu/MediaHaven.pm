@@ -56,6 +56,8 @@ use Catmandu;
 use Cache::LRU;
 use REST::Client;
 
+our $VERSION = '0.01';
+
 with 'Catmandu::Logger';
 
 has 'url'          => (is => 'ro' , required => 1);
@@ -284,6 +286,7 @@ sub _rest_get {
 
 =head1 SEE ALSO
 
+L<Catmandu::Importer::MediaHaven>
 
 =head1 AUTHOR
 
