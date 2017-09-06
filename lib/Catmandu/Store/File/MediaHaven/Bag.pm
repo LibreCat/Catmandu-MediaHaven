@@ -55,7 +55,7 @@ sub _get {
         _stream      => sub {
             my $out   = $_[0];
             my $bytes = 0;
-            $mh->export($id, sub {
+            $mh->export($self->name, sub {
                 my $data = shift;
                 # Support the Dancer send_file "write" callback
                 if ($out->can('syswrite')) {
@@ -70,7 +70,7 @@ sub _get {
 
             $bytes;
         }
-    );
+    };
 }
 
 sub exists {
@@ -90,7 +90,7 @@ sub get {
 
     my $res = $mh->record($self->name);
 
-    return $self->_get($result,$id);
+    return $self->_get($res,$id);
 }
 
 sub add {
@@ -113,3 +113,106 @@ sub commit {
 }
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Catmandu::Store::File::MediaHaven::Bag - Index of all "files" in a Catmandu::Store::File::MediaHaven "folder"
+
+=head1 SYNOPSIS
+
+    use Catmandu;
+
+    my $store = Catmandu->store('File::MediaHaven' , root => 't/data');
+
+    my $index = $store->index;
+
+    # List all containers
+    $index->each(sub {
+        my $container = shift;
+
+        print "%s\n" , $container->{_id};
+    });
+
+    # Get a folder
+    my $folder = $index->get(1234);
+
+    # Get the files in an folder
+    my $files = $index->files(1234);
+
+    $files->each(sub {
+        my $file = shift;
+
+        my $name         = $file->_id;
+        my $size         = $file->size;
+        my $content_type = $file->content_type;
+        my $created      = $file->created;
+        my $modified     = $file->modified;
+
+        $file->stream(IO::File->new(">/tmp/$name"), file);
+    });
+
+    # Retrieve a file
+    my $file = $files->get("data.dat");
+
+    # Stream a file to an IO::Handle
+    $files->stream(IO::File->new(">data.dat"),$file);
+
+=head1 METHODS
+
+=head2 each(\&callback)
+
+Execute C<callback> on every "file" in the MediaHaven store "folder". See L<Catmandu::Iterable> for more
+iterator functions
+
+=head2 exists($name)
+
+Returns true when a "file" with identifier $name exists.
+
+=head2 add($hash)
+
+Not implemeted
+
+=head2 get($id)
+
+Returns a hash containing the metadata of the file. The hash contains:
+
+    * _id : the file name
+    * size : file file size
+    * content_type : the content_type
+    * created : the creation date of the file
+    * modified : the modification date of the file
+    * _stream: a callback function to write the contents of a file to an L<IO::Handle>
+
+If is very much advised to use the C<stream> method below to retrieve files from
+the store.
+
+=head2 delete($name)
+
+Not implemeted
+
+=head2 delete_all()
+
+Not implemeted
+
+=head2 upload(IO::Handle,$name)
+
+Not implemeted
+
+=head2 stream(IO::Handle,$file)
+
+Write the contents of the $file returned by C<get> to the IO::Handle.
+
+=head1 SEE ALSO
+
+L<Catmandu::Store::File::MediaHaven::Bag> ,
+L<Catmandu::Store::File::MediaHaven> ,
+L<Catmandu::FileBag::Index> ,
+L<Catmandu::Plugin::SideCar> ,
+L<Catmandu::Bag> ,
+L<Catmandu::Iterable>
+
+=cut

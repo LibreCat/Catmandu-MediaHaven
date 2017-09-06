@@ -93,6 +93,8 @@ sub delete {
 
 sub delete_all {
     my ($self) = @_;
+
+    croak "Delete is not supported in the MediaHaven FileStore";
 }
 
 sub commit {
