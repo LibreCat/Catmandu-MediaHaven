@@ -127,7 +127,11 @@ Catmandu::Store::File::MediaHaven::Bag - Index of all "files" in a Catmandu::Sto
 
     use Catmandu;
 
-    my $store = Catmandu->store('File::MediaHaven' , root => 't/data');
+    my $store = Catmandu->store('File::MediaHaven' ,
+        url => '...' ,
+        username => '...' ,
+        password => '...' ,
+    );
 
     my $index = $store->index;
 

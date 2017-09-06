@@ -115,10 +115,11 @@ Catmandu::Store::File::MediaHaven::Index - Index of all "Folders" in a MediaHave
 
     use Catmandu;
 
-    my $store = Catmandu->store('File::MediaHaven'
-                        , url      => '...'
-                        , username => '...'
-                        , password => '...' );
+    my $store = Catmandu->store('File::MediaHaven' ,
+        url => '...' ,
+        username => '...' ,
+        password => '...' ,
+    );
 
     my $index = $store->index;
 
