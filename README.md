@@ -58,9 +58,15 @@ a HASH of results.
 Export the binary content of a record from the MediaHaven server. The callback
 will retrieve a stream of data when the download is available,
 
-# SEE ALSO
+# MODULES
 
 [Catmandu::Importer::MediaHaven](https://metacpan.org/pod/Catmandu::Importer::MediaHaven)
+
+[Catmandu::Store::File::MediaHaven](https://metacpan.org/pod/Catmandu::Store::File::MediaHaven)
+
+[Catmandu::Store::File::MediaHaven::Bag](https://metacpan.org/pod/Catmandu::Store::File::MediaHaven::Bag)
+
+[Catmandu::Store::File::MediaHaven::Index](https://metacpan.org/pod/Catmandu::Store::File::MediaHaven::Index)
 
 # AUTHOR
 

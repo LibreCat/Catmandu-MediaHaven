@@ -284,9 +284,15 @@ sub _rest_get {
 }
 
 
-=head1 SEE ALSO
+=head1 MODULES
 
 L<Catmandu::Importer::MediaHaven>
+
+L<Catmandu::Store::File::MediaHaven>
+
+L<Catmandu::Store::File::MediaHaven::Bag>
+
+L<Catmandu::Store::File::MediaHaven::Index>
 
 =head1 AUTHOR
 
