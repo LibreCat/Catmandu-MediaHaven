@@ -222,9 +222,9 @@ sub export {
 
     my $browser  = LWP::UserAgent->new();
 
-    $browser->get($rest_url, ':content_cb' => $callback);
+    my $response = $browser->get($rest_url, ':content_cb' => $callback);
 
-    if ($browser->is_success) {
+    if ($response->is_success) {
         return 1;
     }
     else {

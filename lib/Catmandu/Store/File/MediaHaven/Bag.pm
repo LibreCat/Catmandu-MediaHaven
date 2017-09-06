@@ -5,6 +5,7 @@ our $VERSION = '0.02';
 use Catmandu::Sane;
 use Moo;
 use Carp;
+use Date::Parse;
 use POSIX qw(ceil);
 use namespace::clean;
 
@@ -59,10 +60,10 @@ sub _get {
                 my $data = shift;
                 # Support the Dancer send_file "write" callback
                 if ($out->can('syswrite')) {
-                    $bytes += $out->syswrite($data);
+                    $bytes += $out->syswrite($data) || die "failed to write : $!";
                 }
                 else {
-                    $bytes += $out->write($data);
+                    $bytes += $out->write($data) || die "failed to write : $!";;
                 }
             });
 
