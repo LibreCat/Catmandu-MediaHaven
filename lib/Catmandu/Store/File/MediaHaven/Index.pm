@@ -86,6 +86,16 @@ sub searcher {
     Catmandu::Store::File::MediaHaven::Searcher->new(%args, bag => $self);
 }
 
+sub count {
+    my ($self)    = @_;
+
+    my $mh    = $self->store->mh;
+
+    my $res   = $mh->search(undef);
+
+    $res->{totalNrOfResults};
+}
+
 sub commit {
     return 1;
 }

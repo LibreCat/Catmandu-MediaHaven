@@ -58,6 +58,13 @@ Catmandu::Store::File::MediaHaven - A Catmandu::FileStore to access files in the
     # Export a list of all file containers
     $ catmandu export mh to YAML
 
+    # Export a list of all file containers based on a query
+    $ catmandu export mh --query "+(MediaObjectFragmentTitle:data)"
+    $ catmandu export mh --query "+(MediaObjectFragmentTitle:data)"  --sort "+=MediaObjectFragmentTitle"
+
+    $ Count all file containers
+    $ catmandu count mh
+
     # Export a list of all files in container '1234'
     $ catmandu export mh --bag 1234 to YAML
 

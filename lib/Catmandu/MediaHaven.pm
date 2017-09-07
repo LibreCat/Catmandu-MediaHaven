@@ -98,6 +98,24 @@ sub search {
         push @param , sprintf("nrOfResults=%d",$opts{num});
     }
 
+    if (my $sort = $opts{sort}) {
+        my $direction;
+
+        if ($sort =~ /^[+]/) {
+            $direction = 'up';
+            $sort = substr($sort,1);
+        }
+        elsif ($sort =~ /^[-]/) {
+            $direction = 'down';
+            $sort = substr($sort,1);
+        }
+        else {
+            $direction = 'up';
+        }
+        push @param , sprintf("sort=%s",uri_escape($sort));
+        push @param , sprintf("direction=%s",uri_escape($direction));
+    }
+
     $self->log->info("searching with params: " . join("&",@param));
 
     my $res = $self->_rest_get(@param);

@@ -20,8 +20,9 @@ sub generator {
     my $query = $self->query;
     my $index = $self->start // 0;
     my $limit = $self->limit;
+    my $sort  = $self->sort;
 
-    my $res   = $mh->search($query, start => $index, num => $limit);
+    my $res   = $mh->search($query, start => $index, num => $limit, sort => $sort);
 
     sub {
         state $results         = $res->{mediaDataList};
@@ -45,7 +46,7 @@ sub generator {
             return $self->hit2rec($hit);
         }
         elsif ($index < $num_of_results) {
-            my $res = $mh->search($query, start => $index, num => $limit);
+            my $res = $mh->search($query, start => $index, num => $limit, sort => $sort);
 
             $results = $res->{mediaDataList};
 
@@ -93,7 +94,7 @@ sub count {
 
     my $query = $self->query;
 
-    my $res   = $mh->search(undef);
+    my $res   = $mh->search($query);
 
     $res->{totalNrOfResults};
 }
