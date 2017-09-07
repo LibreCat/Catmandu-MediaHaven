@@ -10,7 +10,7 @@ use namespace::clean;
 
 use Data::Dumper;
 
-with 'Catmandu::Bag'
+with 'Catmandu::Bag';
 with 'Catmandu::FileBag::Index';
 
 sub generator {
