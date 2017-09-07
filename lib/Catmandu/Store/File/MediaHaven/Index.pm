@@ -6,55 +6,25 @@ use Catmandu::Sane;
 use Moo;
 use Carp;
 use POSIX qw(ceil);
+use Catmandu::Store::File::MediaHaven::Searcher;
 use namespace::clean;
 
-use Data::Dumper;
-
 with 'Catmandu::Bag';
+with 'Catmandu::Searchable';
 with 'Catmandu::FileBag::Index';
 
 sub generator {
     my ($self) = @_;
 
-    my $mh  = $self->store->mh;
+    my $searcher = Catmandu::Store::File::MediaHaven::Searcher->new(
+                        bag   => $self ,
+                        limit => undef ,
+                        start => 0 ,
+                        sort  => undef ,
+                        query => undef ,
+                    );
 
-    my $res = $mh->search();
-
-    sub {
-        state $results = $res->{mediaDataList};
-        state $total   = $res->{totalNrOfResults};
-        state $index   = 0;
-
-        $index++;
-
-        if (@$results > 1) {
-            my $hit =  shift @$results;
-            return $self->hit2rec($hit);
-        }
-        elsif ($index < $total) {
-            my $res = $mh->search(undef, start => $index+1);
-
-            $results = $res->{mediaDataList};
-            $index++;
-
-            my $hit = shift @$results;
-
-            return $self->hit2rec($hit);
-        }
-        return undef;
-    };
-}
-
-sub hit2rec {
-    my ($self,$hit) = @_;
-
-    if ($self->store->id_fixer) {
-        return $self->store->id_fixer->fix($hit);
-    }
-    else {
-        my $id = $hit->{externalId};
-        return +{_id => $id};
-    }
+    return $searcher->generator;
 }
 
 sub exists {
@@ -96,6 +66,24 @@ sub delete_all {
     my ($self) = @_;
 
     croak "Delete is not supported in the MediaHaven FileStore";
+}
+
+sub delete_by_query {
+    my ($self, %args) = @_;
+
+    croak "Delete is not supported in the MediaHaven FileStore";
+}
+
+sub search {
+    my ($self, %args) = @_;
+
+    croak "Search is not supported in the MediaHaven FileStore";
+}
+
+sub searcher {
+    my ($self, %args) = @_;
+
+    Catmandu::Store::File::MediaHaven::Searcher->new(%args, bag => $self);
 }
 
 sub commit {

@@ -142,6 +142,8 @@ The index Catmandu::Bag in this Catmandu::Store implements:
 
 =item L<Catmandu::Bag>
 
+=item L<Catmandu::Searchable>
+
 =item L<Catmandu::FileBag::Index>
 
 =back
