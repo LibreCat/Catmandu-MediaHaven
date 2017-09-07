@@ -10,7 +10,8 @@ use namespace::clean;
 
 use Data::Dumper;
 
-with 'Catmandu::Bag', 'Catmandu::FileBag::Index';
+with 'Catmandu::Bag'
+with 'Catmandu::FileBag::Index';
 
 sub generator {
     my ($self) = @_;
@@ -154,46 +155,14 @@ Catmandu::Store::File::MediaHaven::Index - Index of all "Folders" in a MediaHave
     # Stream a file to an IO::Handle
     $files->stream(IO::File->new(">data.dat"),$file);
 
-=head1 METHODS
+=head1 INHERITED METHODS
 
-=head2 each(\&callback)
+This Catmandu::Bag implements:
 
-Execute C<callback> on every "folder" in the MediaHaven store. See L<Catmandu::Iterable> for more
-iterator functions
+=over 3
 
-=head2 exists($id)
+=item L<Catmandu::Bag>
 
-Returns true when a "folder" with identifier $id exists.
+=item L<Catmandu::FileBag::Index>
 
-=head2 add($hash)
-
-Not implemeted
-
-=head2 get($id)
-
-Returns a hash containing the metadata of the folder. In the MediaHaven store this hash
-will contain only the "folder" idenitifier.
-
-=head2 files($id)
-
-Return the L<Catmandu::Store::File::MediaHaven::Bag> that contains all "files" in the "folder"
-with identifier $id.
-
-=head2 delete($id)
-
-Not implemeted
-
-=head2 delete_all()
-
-Not implemeted
-
-=head1 SEE ALSO
-
-L<Catmandu::Store::File::MediaHaven::Bag> ,
-L<Catmandu::Store::File::MediaHaven> ,
-L<Catmandu::FileBag::Index> ,
-L<Catmandu::Plugin::SideCar> ,
-L<Catmandu::Bag> ,
-L<Catmandu::Iterable>
-
-=cut
+=back

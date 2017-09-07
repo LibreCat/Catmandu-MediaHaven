@@ -92,7 +92,12 @@ Catmandu::Store::File::MediaHaven - A Catmandu::FileStore to access files in the
     # Stream the contents of a file
     $files->stream(IO::File->new('>foobar.txt'), $file);
 
-=head1 CONFIGURATION
+=head1 METHODS
+
+=head2 new(%connection_parameters)
+
+Create a new Catmandu::Store::File::MediaHaven with the following connection
+parameters:
 
 =over
 
@@ -117,6 +122,37 @@ Default: "q=%%2B(MediaObjectExternalId:%s)"
 
 Optional. One or more L<Catmandu::Fix> commands or a Fix script used to
 extract the C<_id> bag identifier from the MediaHaven record.
+
+=back
+
+
+=head1 INHERITED METHODS
+
+This Catmandu::FileStore implements:
+
+=over 3
+
+=item L<Catmandu::FileStore>
+
+=back
+
+The index Catmandu::Bag in this Catmandu::Store implements:
+
+=over 3
+
+=item L<Catmandu::Bag>
+
+=item L<Catmandu::FileBag::Index>
+
+=back
+
+The file Catmandu::Bag in this Catmandu::Store implements:
+
+=over 3
+
+=item L<Catmandu::Bag>
+
+=item L<Catmandu::FileBag>
 
 =back
 
