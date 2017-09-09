@@ -1,7 +1,8 @@
 Revision history for Catmandu-MediaHaven
 
 {{$NEXT}}
-
+   - fixing dependencies
+   
 0.03  2017-09-07 15:31:57 CEST
    - adding search and sort support
 
