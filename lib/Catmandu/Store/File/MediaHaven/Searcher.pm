@@ -1,6 +1,6 @@
 package Catmandu::Store::File::MediaHaven::Searcher;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use Catmandu::Sane;
 use Moo;
