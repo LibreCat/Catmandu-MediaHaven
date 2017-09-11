@@ -69,7 +69,7 @@ sub hit2rec {
         return $self->bag->store->id_fixer->fix($hit);
     }
     else {
-        my $id = $hit->{externalId};
+        my $id = $hit->{fragmentId};
         return +{_id => $id};
     }
 }

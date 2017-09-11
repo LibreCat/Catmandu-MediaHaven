@@ -16,7 +16,7 @@ with 'Catmandu::FileStore';
 has 'url'           => (is => 'ro' , required => 1);
 has 'username'      => (is => 'ro' , required => 1);
 has 'password'      => (is => 'ro' , required => 1);
-has 'record_query'  => (is => 'ro' , default => sub { "q=%%2B(MediaObjectExternalId:%s)"; });
+has 'record_query'  => (is => 'ro' , default => sub { "q=%%2B(MediaObjectFragmentId:%s)"; });
 
 has id_fixer        => (is => 'ro' , init_arg => 'record_id_fix', coerce => sub {Catmandu->fixer($_[0])},);
 has 'mh'            => (is => 'lazy');

@@ -14,6 +14,8 @@ requires 'JSON', 0;
 requires 'REST::Client', 0;
 requires 'Cache::LRU', 0;
 requires 'Getopt::Long', 0;
+requires 'HTTP::Request', 0;
+requires 'IO', 0;
 
 # Need recent SSL to talk to https endpoint correctly
 requires 'IO::Socket::SSL', '2.015';

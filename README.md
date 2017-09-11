@@ -15,8 +15,8 @@ Catmandu::MediaHaven - Tools to communicate with the Zeticon MediaHaven server
 
     die "search failed" unless defined($result);
 
-    for my $res (@{$result->mediaDataList}) {
-        my $id = $res->{externalId};
+    for my $res (@{$result->{mediaDataList}}) {
+        my $id = $res->{fragmentId};
         my $date = $res->{data};
 
         print "$id $date\n";
@@ -52,6 +52,10 @@ as a HASH
 
 Retrieve one record from the MediaHaven server based on an identifier. Returns
 a HASH of results.
+
+## edit($id,$field,@values)
+
+Edit the metadata of a record
 
 ## export($id, $callback)
 
