@@ -8,6 +8,9 @@ on 'test', sub {
 };
 
 requires 'Catmandu', '1.06';
+requires 'Moo', 0;
+requires 'Date::Parse', 0;
+requires 'JSON', 0;
 requires 'REST::Client', 0;
 requires 'Cache::LRU', 0;
 requires 'Getopt::Long', 0;
