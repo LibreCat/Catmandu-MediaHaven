@@ -2,7 +2,7 @@ package Catmandu::Importer::MediaHaven;
 
 use Catmandu::Sane;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 use Moo;
 use Cpanel::JSON::XS;

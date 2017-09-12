@@ -57,7 +57,7 @@ use Catmandu;
 use Cache::LRU;
 use REST::Client;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 with 'Catmandu::Logger';
 
