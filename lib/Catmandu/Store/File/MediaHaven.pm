@@ -47,7 +47,7 @@ Catmandu::Store::File::MediaHaven - A Catmandu::FileStore to access files in the
 
     $ cat catmandu.yml
     ---
-    importer:
+    store:
          mh:
              package: MediaHaven
              options:
@@ -123,7 +123,7 @@ Required. Password used to connect to MediaHaven.
 =item record_query
 
 Optional. MediaHaven query to extract a given identifier from the database.
-Default: "q=%%2B(MediaObjectExternalId:%s)"
+Default: "q=%%2B(MediaObjectFragmentId:%s)"
 
 =item record_id_fix
 
