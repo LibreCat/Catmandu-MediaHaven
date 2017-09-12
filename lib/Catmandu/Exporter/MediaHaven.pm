@@ -78,6 +78,15 @@ Catmandu::Exporter::MediaHaven - a exporter that updates Zeticon MediaHaven reco
 
     $ catmandu convert YAML to mh < records.yml
 
+=head2 DESCRIPTION
+
+This Exporter will convert metadata records into a JSON encoded field in the
+MediaHaven database. A `json_key` is required. This is the field were the JSON
+encoded data is stored.
+
+Attn: take some seconds/minutes to have the metadata updates available and
+indexed in the backend database.
+ 
 =head1 METHODS
 
 =head2 new(%connection_parameters)
