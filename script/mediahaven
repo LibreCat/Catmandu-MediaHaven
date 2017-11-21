@@ -41,6 +41,9 @@ my $cfg;
 if (-r $cfg_path) {
    $cfg = Catmandu->importer('YAML',file=>$cfg_path)->first->{mediahaven};
 }
+elsif ($ENV{MEDIAHAVEN_CONFIG}) {
+   $cfg = Catmandu->importer('YAML',file=>$ENV{MEDIAHAVEN_CONFIG})->first->{mediahaven};
+}
 else {
    Catmandu->default_load_path($cfg_path);
    $cfg = Catmandu->config->{mediahaven};
