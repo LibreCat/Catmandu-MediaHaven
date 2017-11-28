@@ -1,7 +1,8 @@
 Revision history for Catmandu-MediaHaven
 
 {{$NEXT}}
-
+   - adding support for rate limits when exporting data
+   
 0.07  2017-11-28 10:10:19 CET
    - fixing search result list
 
