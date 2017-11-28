@@ -75,17 +75,19 @@ sub cmd_search {
 
     my $e = Catmandu->exporter($exporter);
 
-    my $count = 20;
-    my $start = 0;
+    my $count = $num;
+    my $start = $start;
     my $total;
 
     do {
 	my $result = $mh->search($query, start => $start , num => $count);
+        my $resSize = 0;
         for my $res (@{$result->{mediaDataList}}) {
             $e->add($res);
+            $resSize++;
         }
-	$total = $result->{totalNrOfResults};
-        $start += $count;
+	    $total = $result->{totalNrOfResults};
+        $start += $resSize;
     } while ($start < $total);
 
     $e->commit;
